@@ -23,11 +23,16 @@
 //  ---------------------------------------------------------------------------------
 
 using Composition.WindowsRuntimeHelpers;
+using SharpDX;
+using SharpDX.Direct3D11;
+using SharpDX.DXGI;
 using System;
+using System.IO;
 using Windows.Graphics;
 using Windows.Graphics.Capture;
 using Windows.Graphics.DirectX;
 using Windows.Graphics.DirectX.Direct3D11;
+using Windows.Storage.Streams;
 using Windows.UI.Composition;
 
 namespace CaptureSampleCore
@@ -140,5 +145,58 @@ namespace CaptureSampleCore
                     lastSize);
             }
         }
+
+        //private void GetBitmap(Texture2D texture)
+        //{
+        //    // Create texture copy
+        //    var copy = new Texture2D(d3dDevice, description: new Texture2DDescription
+        //    {
+        //        Width = texture.Description.Width,
+        //        Height = texture.Description.Height,
+        //        MipLevels = 1,
+        //        ArraySize = 1,
+        //        Format = texture.Description.Format,
+        //        Usage = ResourceUsage.Staging,
+        //        SampleDescription = new SampleDescription(1, 0),
+        //        BindFlags = BindFlags.None,
+        //        CpuAccessFlags = CpuAccessFlags.Read,
+        //        OptionFlags = ResourceOptionFlags.None
+        //    });
+
+        //    // Copy data
+        //    d3dDevice.ImmediateContext.CopyResource(texture, copy);
+
+        //    var dataBox = d3dDevice.ImmediateContext.MapSubresource(copy, 0, 0, MapMode.Read, MapFlags.None, out DataStream stream);
+        //    var rect = new DataRectangle
+        //    {
+        //        DataPointer = stream.DataPointer,
+        //        Pitch = dataBox.RowPitch
+        //    };
+        
+        //    var format = PixelFormat.Format32bppPBGRA;
+        //    Bitmap bmp = new Bitmap(factory, copy.Description.Width, copy.Description.Height, format, rect);
+        
+        //    using (var ras = new InMemoryRandomAccessStream())
+        //    {
+        //        var ms = ras.AsStream(); // Do not dispose here
+        //        using (var wic = new WICStream(factory, ms))
+        //        using (var encoder = new PngBitmapEncoder(factory, wic))
+        //        using (var frame = new BitmapFrameEncode(encoder))
+        //        {
+        //            frame.Initialize();
+        //            frame.SetSize(bmp.Size.Width, bmp.Size.Height);
+        //            frame.SetPixelFormat(ref format);
+        //            frame.WriteSource(bmp);
+        //            frame.Commit();
+        //            encoder.Commit();
+        //        }
+
+        //        // BitmapCaptured?.Invoke(this, new CaptureEventArgs(ms, bmp.Size.Width, bmp.Size.Height));
+        //    }
+
+        //    d3dDevice.ImmediateContext.UnmapSubresource(copy, 0);
+        //    copy.Dispose();
+        //    bmp.Dispose();
+        //}
     }
 }

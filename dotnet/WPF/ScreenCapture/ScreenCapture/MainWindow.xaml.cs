@@ -61,6 +61,10 @@ namespace WPFCaptureSample
             // Force graphicscapture.dll to load.
             var picker = new GraphicsCapturePicker();
 #endif
+
+			var offscreenWindow = new OffscreenWindow();
+			offscreenWindow.Left = 10000;
+			offscreenWindow.Show();
         }
 
         private async void PickerButton_Click(object sender, RoutedEventArgs e)
@@ -68,7 +72,14 @@ namespace WPFCaptureSample
             StopCapture();
             WindowComboBox.SelectedIndex = -1;
             MonitorComboBox.SelectedIndex = -1;
-            await StartPickerCaptureAsync();
+			try 
+			{
+				await StartPickerCaptureAsync();
+			}
+			catch (Exception ex)
+			{ 
+				Console.WriteLine(ex.Message);
+			}
         }
 
         private void PrimaryMonitorButton_Click(object sender, RoutedEventArgs e)
