@@ -54,11 +54,15 @@ namespace CaptureSampleCore
             device = d;
             d3dDevice = Direct3D11Helper.CreateSharpDXDevice(device);
 
+            var size = item.Size;
+            if (size.Height == 0 || size.Width == 0)
+                size = new SizeInt32() { Height = 1, Width = 1 };
+
             var dxgiFactory = new SharpDX.DXGI.Factory2();
             var description = new SharpDX.DXGI.SwapChainDescription1()
             {
-                Width = item.Size.Width,
-                Height = item.Size.Height,
+                Width = size.Width,
+                Height =  size.Height,
                 Format = SharpDX.DXGI.Format.B8G8R8A8_UNorm,
                 Stereo = false,
                 SampleDescription = new SharpDX.DXGI.SampleDescription()
@@ -79,9 +83,9 @@ namespace CaptureSampleCore
                 device,
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 2,
-                i.Size);
+                size);
             session = framePool.CreateCaptureSession(i);
-            lastSize = i.Size;
+            lastSize = size;
 
             framePool.FrameArrived += OnFrameArrived;
         }
